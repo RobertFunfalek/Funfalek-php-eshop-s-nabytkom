@@ -56,70 +56,13 @@ ddsmoothmenu.init({
 <body>
 
 <div id="templatemo_wrapper">
-<?php include_once 'D:\xampp\htdocs\templatemo_352_station_shop\partials\header.php';?>
+<?php include_once 'partials/header.php';?>
 
-    
-
-    
-    <div id="templatemo_main">
-   		<div id="sidebar" class="float_l">
-        	<div class="sidebar_box"><span class="bottom"></span>
-            	<h3>Categories</h3>   
-                <div class="content"> 
-                	<ul class="sidebar_list">
-                    	<li class="first"><a href="#">Aenean varius nulla</a></li>
-                        <li><a href="#">Cras mattis arcu</a></li>
-                        <li><a href="#">Donec turpis ipsum</a></li>
-                        <li><a href="#">Fusce sodales mattis</a></li>
-                        <li><a href="#">Maecenas et mauris</a></li>
-                        <li><a href="#">Mauris nulla tortor</a></li>
-                        <li><a href="#">Nulla odio ipsum</a></li>
-                        <li><a href="#">Nunc ac viverra nibh</a></li>
-                        <li><a href="#">Praesent id venenatis</a></li>
-                        <li><a href="#">Quisque odio velit</a></li>
-                        <li><a href="#">Suspendisse posuere</a></li>
-                        <li><a href="#">Tempus lacus risus</a></li>
-                        <li><a href="#">Ut tincidunt imperdiet</a></li>
-                        <li><a href="#">Vestibulum eleifend</a></li>
-                        <li class="last"><a href="#">Velit mi rutrum diam</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="sidebar_box"><span class="bottom"></span>
-            	<h3>Best Sellers </h3>   
-                <div class="content"> 
-                	<div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 01" /></a>
-                        <h4><a href="#">Donec nunc nisl</a></h4>
-                        <p class="price">$10</p>
-                        <div class="cleaner"></div>
-                    </div>
-                    <div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 02" /></a>
-                        <h4><a href="#">Aenean eu tellus</a></h4>
-                        <p class="price">$12</p>
-                        <div class="cleaner"></div>
-                    </div>
-                    <div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 03" /></a>
-                        <h4><a href="#">Phasellus ut dui</a></h4>
-                        <p class="price">$20</p>
-                        <div class="cleaner"></div>
-                    </div>
-                    <div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 04" /></a>
-                        <h4><a href="#">Vestibulum ante</a></h4>
-                        <p class="price">$16</p>
-                        <div class="cleaner"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php
+<?php
 
 
 
-$host = '127.0.0.1';
+$host = 'localhost';
 $dbUsername = 'root';
 $dbPassword = '';
 $dbName = 'products';
@@ -130,22 +73,51 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   
-    foreach ($_POST['pocet'] as $id => $pocet) {
-        $price = $_POST['price'][$id];
-        
-        
-        $sql = "UPDATE products SET pocet = '$pocet', price = '$price' WHERE id = '$id'";
-        if ($conn->query($sql) === TRUE) {
-            echo "Record updated successfully for ID: " . $id . "<br>";
-        } else {
-            echo "Error updating record for ID: " . $id . "<br>";
-        }
+// pridat produkt
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add_product"])) {
+    $name = $_POST["name"];
+    $price = $_POST["price"];
+    $pocet = $_POST["pocet"];
+    $id = $_POST["id"]; // dostanem hodnoty
+
+    // tu sa to pridava
+    $sql = "INSERT INTO products (name, price, pocet, id) VALUES ('$name', '$price', '$pocet', '$id')";
+    if ($conn->query($sql) === TRUE) {
+        echo "New product added successfully.";
+    } else {
+        echo "Error adding product: " . $conn->error;
     }
 }
 
+// update
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_product"])) {
+    $id = $_POST["update_product"];
+    $price = $_POST["price"][$id];
+    $pocet = $_POST["pocet"][$id];
 
+    // tu je update
+    $sql = "UPDATE products SET price = '$price', pocet = '$pocet' WHERE id = '$id'";
+    if ($conn->query($sql) === TRUE) {
+        echo "Product updated successfully.";
+    } else {
+        echo "Error updating product: " . $conn->error;
+    }
+}
+
+// delete
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_product"])) {
+    $id = $_POST["delete_product"];
+
+    // funkcia pre delete
+    $sql = "DELETE FROM products WHERE id = '$id'";
+    if ($conn->query($sql) === TRUE) {
+        echo "Product deleted successfully.";
+    } else {
+        echo "Error deleting product: " . $conn->error;
+    }
+}
+
+// Read alebo display
 $sql = "SELECT * FROM products";
 $result = $conn->query($sql);
 
@@ -157,6 +129,7 @@ if ($result->num_rows > 0) {
     echo "<th>Price (€)</th>";
     echo "<th>Pocet</th>";
     echo "<th>ID</th>";
+    echo "<th>Action</th>";
     echo "</tr>";
 
     while ($row = $result->fetch_assoc()) {
@@ -165,21 +138,40 @@ if ($result->num_rows > 0) {
         echo "<td><input type='number' name='price[" . $row["id"] . "]' value='" . $row["price"] . "'></td>";
         echo "<td><input type='number' name='pocet[" . $row["id"] . "]' value='" . $row["pocet"] . "'></td>";
         echo "<td>" . $row["id"] . "</td>";
+        echo "<td>";
+        echo "<button type='submit' name='update_product' value='" . $row["id"] . "'>Update</button>";
+        echo "<button type='submit' name='delete_product' value='" . $row["id"] . "'>Delete</button>";
+        echo "</td>";
         echo "</tr>";
     }
 
     echo "</table>";
-    echo "<input type='submit' value='Update'>";
     echo "</form>";
 } else {
     echo "No products found.";
 }
+
+// tabulka pre pridanie produktu
+echo "<div class='form-container'>";
+echo "<form action='' method='post'>";
+echo "<label for='name'>Name:</label>";
+echo "<input type='text' name='name' required><br>";
+echo "<label for='price'>Price:</label>";
+echo "<input type='number' name='price' required><br>";
+echo "<label for='pocet'>Pocet:</label>";
+echo "<input type='number' name='pocet' required><br>";
+echo "<label for='id'>ID:</label>";
+echo "<input type='number' name='id' required><br>";
+echo "<input type='submit' name='add_product' value='Add Product'>";
+echo "</form>";
+echo "</div>";
+
+// zatvorit databazu
 $conn->close();
 ?>
-        <div class="cleaner"></div>
-    </div> <!-- END of templatemo_main -->
+
     
-    <?php include_once 'D:\xampp\htdocs\templatemo_352_station_shop\partials\footer.php';?>
+<?php include_once 'partials/footer.php';?>
     
 </div> <!-- END of templatemo_wrapper -->
 

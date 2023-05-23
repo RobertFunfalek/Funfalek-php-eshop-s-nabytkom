@@ -1,6 +1,6 @@
 <?php
-
-$host = '127.0.0.1';
+// nezabudnut databazu premenovat ak by nesla na ntb
+$host = 'localhost';
 $dbUsername = 'root';
 $dbPassword = '';
 $dbName = 'login';

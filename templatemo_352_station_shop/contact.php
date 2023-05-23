@@ -56,119 +56,84 @@ ddsmoothmenu.init({
 <body>
 
 <div id="templatemo_wrapper">
-<?php include_once 'D:\xampp\htdocs\templatemo_352_station_shop\partials\header.php';?>
+<?php include_once 'partials/header.php';?>
 
-    
-    <div id="templatemo_main">
-   		<div id="sidebar" class="float_l">
-        	<div class="sidebar_box"><span class="bottom"></span>
-            	<h3>Categories</h3>   
-                <div class="content"> 
-                	<ul class="sidebar_list">
-                    	<li class="first"><a href="#">Aenean varius nulla</a></li>
-                        <li><a href="#">Cras mattis arcu</a></li>
-                        <li><a href="#">Donec turpis ipsum</a></li>
-                        <li><a href="#">Fusce sodales mattis</a></li>
-                        <li><a href="#">Maecenas et mauris</a></li>
-                        <li><a href="#">Mauris nulla tortor</a></li>
-                        <li><a href="#">Nulla odio ipsum</a></li>
-                        <li><a href="#">Nunc ac viverra nibh</a></li>
-                        <li><a href="#">Praesent id venenatis</a></li>
-                        <li><a href="#">Quisque odio velit</a></li>
-                        <li><a href="#">Suspendisse posuere</a></li>
-                        <li><a href="#">Tempus lacus risus</a></li>
-                        <li><a href="#">Ut tincidunt imperdiet</a></li>
-                        <li><a href="#">Vestibulum eleifend</a></li>
-                        <li class="last"><a href="#">Velit mi rutrum diam</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="sidebar_box"><span class="bottom"></span>
-            	<h3>Best Sellers </h3>   
-                <div class="content"> 
-                	<div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 01" /></a>
-                        <h4><a href="#">Donec nunc nisl</a></h4>
-                        <p class="price">$10</p>
-                        <div class="cleaner"></div>
-                    </div>
-                    <div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 02" /></a>
-                        <h4><a href="#">Aenean eu tellus</a></h4>
-                        <p class="price">$12</p>
-                        <div class="cleaner"></div>
-                    </div>
-                    <div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 03" /></a>
-                        <h4><a href="#">Phasellus ut dui</a></h4>
-                        <p class="price">$20</p>
-                        <div class="cleaner"></div>
-                    </div>
-                    <div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 04" /></a>
-                        <h4><a href="#">Vestibulum ante</a></h4>
-                        <p class="price">$16</p>
-                        <div class="cleaner"></div>
-                    </div>
+<div id="templatemo_main">
+        <div id="sidebar" class="float_l">
+            <div class="sidebar_box">
+                <span class="bottom"></span>
+                <h3>In Stock</h3>
+                <div class="content">
+                    <?php
+                    $host = 'localhost';
+                    $dbUsername = 'root';
+                    $dbPassword = '';
+                    $dbName = 'products';
+                    $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+                    $sql = "SELECT name, pocet FROM products";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<div class="bs_box">';
+                            echo '<h4><a href="#">' . $row["name"] . '</a></h4>';
+                            echo '<p class="stock-count">In Stock: ' . $row["pocet"] . '</p>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo "No products found.";
+                    }
+                    $conn->close();
+                    ?>
                 </div>
             </div>
         </div>
         <div id="content" class="float_r">
-        	
             <h1>Contact Us</h1>
             <div class="content_half float_l">
-				<h4>Send us a message...</h4>
-                <p>Etiam id massa scelerisque nunc luctus ultrices tellus laoreet eget a sem. Validate <a href="http://validator.w3.org/check?uri=referer" rel="nofollow"><strong>XHTML</strong></a> &amp; <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="nofollow"><strong>CSS</strong></a>.</p>
+                <h4>Send us a message...</h4>
                 <div id="contact_form">
-                   <form method="post" name="contact" action="#">
-                        
-                        <label for="author">Name:</label> <input type="text" id="author" name="author" class="required input_field" />
+                    <form method="post" name="contact" action="#">
+                        <label for="author">Name:</label>
+                        <input type="text" id="author" name="author" class="required input_field" />
                         <div class="cleaner h10"></div>
-                        <label for="email">Email:</label> <input type="text" id="email" name="email" class="validate-email required input_field" />
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email" class="validate-email required input_field" />
                         <div class="cleaner h10"></div>
-                        
-						<label for="subject">Subject:</label> <input type="text" name="subject" id="subject" class="input_field" />
-
-						<div class="cleaner h10"></div>
-        
-                        <label for="text">Message:</label> <textarea id="text" name="text" rows="0" cols="0" class="required"></textarea>
+                        <label for="subject">Subject:</label>
+                        <input type="text" name="subject" id="subject" class="input_field" />
                         <div class="cleaner h10"></div>
-                        
+                        <label for="text">Message:</label>
+                        <textarea id="text" name="text" rows="0" cols="0" class="required"></textarea>
+                        <div class="cleaner h10"></div>
                         <input type="submit" value="Send" id="submit" name="submit" class="submit_btn float_l" />
-						<input type="reset" value="Reset" id="reset" name="reset" class="submit_btn float_r" />
-                        
-            	</form>
+                        <input type="reset" value="Reset" id="reset" name="reset" class="submit_btn float_r" />
+                    </form>
                 </div>
             </div>
-        <div class="content_half float_r">
-        	<h4>Mailing Addresses</h4>
-        	<h6><strong>Location One</strong></h6>
-          132-145 Aliquam vitae mi tellus,<br />
-            	Nulla mauris elit pretium, 23900<br />
-            	Pellentesque sit amet<br /><br />
-            
-				<strong>Phone:</strong> 090-090-1080<br />
-            	<strong>Email:</strong> <a href="mailto:info@yoursite.com">info@yoursite.com</a><br />
-                
-            <div class="cleaner h20"></div>
-            <h6><strong>Location Two</strong></h6>
-          211-303 Curabitur tincidunt euismod,<br />
-            	Sed eu  tortor nunc at ipsum, 14080<br />
-            	Vestibulum nec tincidunt<br /><br />
-            
-				<strong>Phone:</strong> 020-050-1920<br />
-            	<strong>Email:</strong> <a href="mailto:info@yoursite.com">info@yoursite.com</a><br />
+            <div class="content_half float_r">
+                <h4>Mailing Addresses</h4>
+                <h6><strong>Location One</strong></h6>
+                Trieda Andreja Hlinku 1, 949 74 Nitra-Chrenová<br /><br />
+                <strong>Phone:</strong> 0376408111<br />
+                <strong>Email:</strong> <a>ukf@ukf.sk</a><br />
+                <div class="cleaner h20"></div>
+                <h6><strong>Location Two</strong></h6>
+                21112, Rastislavova 200, 951 41 Lužianky<br /><br />
+                <strong>Phone:</strong> 0940288258<br />
+                <strong>Email:</strong> <a>robofu7@centrum.sk</a><br />
+            </div>
+            <div class="cleaner h40"></div>
+            <iframe width="680" height="340" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2653.7125546874368!2d18.08886607750265!3d48.30837953925328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476c8e7514175363%3A0x6e9c3f587d6256!2sLorem%20Ipsum%20Dolor%20Sit%20Amet%2C%20Lorem%20Ipsum%20Dolor%20Sit%20Amet%2C%20Hungary!5e0!3m2!1sen!2sus!4v1614572370440!5m2!1sen!2sus"></iframe>
         </div>
-        
-        <div class="cleaner h40"></div>
-        
-        <iframe width="680" height="340" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Central+Park,+New+York,+NY,+USA&amp;aq=0&amp;sll=14.093957,1.318359&amp;sspn=69.699334,135.263672&amp;vpsrc=6&amp;ie=UTF8&amp;hq=Central+Park,+New+York,+NY,+USA&amp;ll=40.778265,-73.96988&amp;spn=0.033797,0.06403&amp;t=m&amp;output=embed"></iframe>
-            
-        </div> 
         <div class="cleaner"></div>
-    </div> <!-- END of templatemo_main -->
+    </div> <!-- END of main -->
+ 
     
-    <?php include_once 'D:\xampp\htdocs\templatemo_352_station_shop\partials\footer.php';?>
+    <?php include_once 'partials/footer.php';?>
     
 </div> <!-- END of templatemo_wrapper -->
 

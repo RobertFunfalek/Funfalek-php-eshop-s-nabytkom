@@ -73,7 +73,7 @@ ddsmoothmenu.init({
 <body>
 
 <div id="templatemo_wrapper">
-<?php include_once 'D:\xampp\htdocs\templatemo_352_station_shop\partials\header.php';?>
+<?php include_once 'partials/header.php';?>
     
 
     
@@ -135,129 +135,74 @@ ddsmoothmenu.init({
     </div> <!-- END of templatemo_middle -->
     
     <div id="templatemo_main">
-   		<div id="sidebar" class="float_l">
-        	<div class="sidebar_box"><span class="bottom"></span>
-            	<h3>Categories</h3>   
-                <div class="content"> 
-                	<ul class="sidebar_list">
-                    	<li class="first"><a href="#">Aenean varius nulla</a></li>
-                        <li><a href="#">Cras mattis arcu</a></li>
-                        <li><a href="#">Donec turpis ipsum</a></li>
-                        <li><a href="#">Fusce sodales mattis</a></li>
-                        <li><a href="#">Maecenas et mauris</a></li>
-                        <li><a href="#">Mauris nulla tortor</a></li>
-                        <li><a href="#">Nulla odio ipsum</a></li>
-                        <li><a href="#">Nunc ac viverra nibh</a></li>
-                        <li><a href="#">Praesent id venenatis</a></li>
-                        <li><a href="#">Quisque odio velit</a></li>
-                        <li><a href="#">Suspendisse posuere</a></li>
-                        <li><a href="#">Tempus lacus risus</a></li>
-                        <li><a href="#">Ut tincidunt imperdiet</a></li>
-                        <li><a href="#">Vestibulum eleifend</a></li>
-                        <li class="last"><a href="#">Velit mi rutrum diam</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="sidebar_box"><span class="bottom"></span>
-            	<h3>Best Sellers </h3>   
-                <div class="content"> 
-                	<div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 01" /></a>
-                        <h4><a href="#">Donec nunc nisl</a></h4>
-                        <p class="price">$10</p>
-                        <div class="cleaner"></div>
-                    </div>
-                    <div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 02" /></a>
-                        <h4><a href="#">Aenean eu tellus</a></h4>
-                        <p class="price">$12</p>
-                        <div class="cleaner"></div>
-                    </div>
-                    <div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 03" /></a>
-                        <h4><a href="#">Phasellus ut dui</a></h4>
-                        <p class="price">$20</p>
-                        <div class="cleaner"></div>
-                    </div>
-                    <div class="bs_box">
-                    	<a href="#"><img src="images/templatemo_image_01.jpg" alt="Image 04" /></a>
-                        <h4><a href="#">Vestibulum ante</a></h4>
-                        <p class="price">$16</p>
-                        <div class="cleaner"></div>
-                    </div>
-                </div>
-            </div>
+    <div id="sidebar" class="float_l">
+    <div class="sidebar_box"><span class="bottom"></span>
+        <h3>In Stock</h3>
+        <div class="content">
+            <?php
+            $host = 'localhost';
+            $dbUsername = 'root';
+            $dbPassword = '';
+            $dbName = 'products';
+            $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            $sql = "SELECT name, pocet FROM products";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="bs_box">';
+                    echo '<h4><a href="#">' . $row["name"] . '</a></h4>';
+                    echo '<p class="stock-count">In Stock: ' . $row["pocet"] . '</p>';
+                    echo '</div>';
+                }
+            } else {
+                echo "No products found.";
+            }
+            $conn->close();
+            ?>
         </div>
+    </div>
+</div>
         <div id="content" class="float_r">
-        	<h1>New Products</h1>
+        	<h1>Products</h1>
+            
             <div class="product_box">
-            	<a href="productdetail.php"><img src="images/product/01.jpg" alt="Image 01" /></a>
+            	<a href="produkty.php"><img src="images/product/01.jpg" alt="Image 01" class="productimg"/></a>
                 <h3>Integer eleifend sed</h3>
-                <p class="product_price">$ 100</p>
-                <a href="shoppingcart.php" class="add_to_card">Add to Cart</a>
-                <a href="productdetail.php" class="detail">Detail</a>
+                <p class="product_price">65€</p>
+                <a href="contact.php" class="add_to_card">Add to Cart</a>
+                <a href="produkty.php" class="detail">Detail</a>
             </div>        	
             <div class="product_box">
-            	<a href="productdetail.php"><img src="images/product/02.jpg" alt="Image 02" /></a>
+            	<a href="produkty.php"><img src="images/product/02.jpg" alt="Image 02" class="productimg"/></a>
                 <h3>Nam cursus facilisis</h3>
-                <p class="product_price">$ 200</p>
-                <a href="shoppingcart.php" class="add_to_card">Add to Cart</a>
-                <a href="productdetail.php" class="detail">Detail</a>
+                <p class="product_price">250€</p>
+                <a href="contact.php" class="add_to_card">Add to Cart</a>
+                <a href="produkty.php" class="detail">Detail</a>
             </div>        	
             <div class="product_box no_margin_right">
-            	<a href="productdetail.php"><img src="images/product/03.jpg" alt="Image 03" /></a>
+            	<a href="produkty.php"><img src="images/product/03.jpg" alt="Image 03" class="productimg"/></a>
                 <h3>Mauris consectetur</h3>
-                <p class="product_price">$ 120</p>
-                <a href="shoppingcart.php" class="add_to_card">Add to Cart</a>
-                <a href="productdetail.php" class="detail">Detail</a>
+                <p class="product_price">700€</p>
+                <a href="contact.php" class="add_to_card">Add to Cart</a>
+                <a href="produkty.php" class="detail">Detail</a>
             </div>        	
             <div class="product_box">
-            	<a href="productdetail.php"><img src="images/product/04.jpg" alt="Image 04" /></a>
+            	<a href="produkty.php"><img src="images/product/04.jpg" alt="Image 04" class="productimg"/></a>
                 <h3>Proin volutpat</h3>
-                <p class="product_price">$ 260</p>
-                <a href="shoppingcart.php" class="add_to_card">Add to Cart</a>
-                <a href="productdetail.php" class="detail">Detail</a>
+                <p class="product_price">25€</p>
+                <a href="contact.php" class="add_to_card">Add to Cart</a>
+                <a href="produkty.php" class="detail">Detail</a>
             </div>        	
-            <div class="product_box">
-            	<a href="productdetail.php"><img src="images/product/05.jpg" alt="Image 05" /></a>
-                <h3>Aenean tempus</h3>
-                <p class="product_price">$ 80</p>
-                <a href="shoppingcart.php" class="add_to_card">Add to Cart</a>
-                <a href="productdetail.php" class="detail">Detail</a>
-            </div>        	
-            <div class="product_box no_margin_right">
-            	<a href="productdetail.php"><img src="images/product/06.jpg" alt="Image 06" /></a>
-                <h3>Nulla</a>.</h3>
-                <p class="product_price">$ 193</p>
-                <a href="shoppingcart.php" class="add_to_card">Add to Cart</a>
-                <a href="productdetail.php" class="detail">Detail</a>
-            </div>        	
-            <div class="product_box">
-            	<a href="productdetail.php"><img src="images/product/07.jpg" alt="Image 07" /></a>
-                <h3>Pellentesque egestas</h3>
-                <p class="product_price">$ 30</p>
-                <a href="shoppingcart.php" class="add_to_card">Add to Cart</a>
-                <a href="productdetail.php" class="detail">Detail</a>
-            </div>        	
-            <div class="product_box">
-            	<a href="productdetail.php"><img src="images/product/08.jpg" alt="Image 08" /></a>
-                <h3>Suspendisse fermentum</h3>
-                <p class="product_price">$ 220</p>
-                <a href="shoppingcart.php" class="add_to_card">Add to Cart</a>
-                <a href="productdetail.php" class="detail">Detail</a>
-            </div>        	
-            <div class="product_box no_margin_right">
-            	<a href="productdetail.php"><img src="images/product/09.jpg" alt="Image 09" /></a>
-                <h3>Donec laoreet velit</h3>
-                <p class="product_price">$ 65</p>
-                <a href="shoppingcart.php" class="add_to_card">Add to Cart</a>
-                <a href="productdetail.php" class="detail">Detail</a>
-            </div>  
+            
         </div> 
         <div class="cleaner"></div>
     </div> <!-- END of templatemo_main -->
     
-    <?php include_once 'D:\xampp\htdocs\templatemo_352_station_shop\partials\footer.php';?>
+    <?php include_once 'partials/footer.php';?>
     
 </div> <!-- END of templatemo_wrapper -->
 

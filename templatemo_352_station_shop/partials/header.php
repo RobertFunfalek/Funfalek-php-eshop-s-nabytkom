@@ -15,9 +15,9 @@
         </div>
         
         <div id="header_right">
-	    <a href="shoppingcart.php">My Cart</a> | <a href="checkout.php">Checkout</a> |         <button id="loginBtn">Login</button>
+	    <button id="loginBtn">Login</button>
 
-<div id="popup" class="popup">
+<div id="popup" class="popup" style="display: none;">
     <div class="popup-content">
         <h2>Login</h2>
         <form action="login.php" method="post">
@@ -54,40 +54,15 @@ closeBtn.addEventListener("click", function() {
     </div>
     <div id="templatemo_menu">
     	<div id="top_nav" class="ddsmoothmenu">
-            <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="products.php">Products</a>
-                    <ul>
-                        <li><a href="#submenu1">Sub menu 1</a></li>
-                        <li><a href="#submenu2">Sub menu 2</a></li>
-                        <li><a href="#submenu3">Sub menu 3</a></li>
-                  	</ul>
-                </li>
-                <li><a href="about.php" >About</a>
-                    <ul>
-                        <li><a href="#submenu1">Sub menu 1</a></li>
-                        <li><a href="#submenu2">Sub menu 2</a></li>
-                        <li><a href="#submenu3">Sub menu 3</a></li>
-                        <li><a href="#submenu4">Sub menu 4</a></li>
-                        <li><a href="#submenu5">Sub menu 5</a></li>
-                  	</ul>
-                </li>
-                <li><a href="faqs.php">FAQs</a></li>
-                <li><a href="checkout.php">Checkout</a></li>
-                <li><a href="contact.php">Contact</a></li>
-            </ul>
+        <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="produkty.php">Products</a></li>
+            <li><a href="about.php" >About</a></li>
+            <li><a href="faqs.php">FAQs</a></li>
+
+            <li><a href="contact.php">Contact</a></li>
+        </ul>
             <br style="clear: left" />
         </div> <!-- end of ddsmoothmenu -->
-        <div id="menu_second_bar">
-        	<div id="top_shopping_cart">
-            	Shopping Cart: <strong>3 Products</strong> ( <a href="shoppingcart.php">Show Cart</a> )
-            </div>
-        	<div id="templatemo_search">
-                <form action="#" method="get">
-                  <input type="text" value="Search" name="keyword" id="keyword" title="keyword" onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
-                  <input type="submit" name="Search" value=" Search " alt="Search" id="searchbutton" title="Search" class="sub_btn"  />
-                </form>
-            </div>
-            <div class="cleaner"></div>
-    	</div>
+    
     </div>
